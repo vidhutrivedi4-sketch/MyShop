@@ -1,0 +1,7 @@
+<h1>Search Results</h1>
+
+{% for p in results %}
+    <p>{{ p.name }} - ₹{{ p.price }}</p>
+{% empty %}
+    <p>No products found</p>
+{% endfor %}

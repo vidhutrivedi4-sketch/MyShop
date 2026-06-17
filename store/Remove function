@@ -1,0 +1,10 @@
+def remove_from_cart(request, id):
+    cart = request.session.get('cart', [])
+
+    # filter out item jiska id match ho
+    cart = [item for item in cart if item['id'] != id]
+
+    request.session['cart'] = cart
+    request.session.modified = True
+
+    return redirect('cart')

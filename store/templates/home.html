@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Shop</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f1f3f6;
+    margin:0;
+}
+
+/* NAVBAR */
+.navbar{
+    background:#131921;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:white;
+}
+
+.navbar a{
+    color:white;
+    margin:0 10px;
+    text-decoration:none;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:20px;
+    padding:20px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    border-radius:10px;
+    padding:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.02);
+}
+
+/* IMAGE */
+.card img{
+    width:100%;
+    height:200px;
+    object-fit:contain;
+    background:white;
+}
+
+/* BUTTONS */
+.btn{
+    display:inline-block;
+    padding:8px 10px;
+    margin-top:5px;
+    border-radius:5px;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.view{
+    background:#ff9900;
+    color:white;
+}
+
+.cart{
+    background:#2874f0;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'cart' %}">Cart</a>
+        <a href="{% url 'my_orders' %}">My Orders</a>
+
+        <!-- SEARCH -->
+        <form action="{% url 'search' %}" method="GET"
+              style="display:inline-flex; margin-left:10px; background:white; border-radius:5px; overflow:hidden;">
+
+            <input type="text" name="q" placeholder="Search..."
+                   style="padding:5px; border:none; outline:none;">
+
+            <button type="submit" style="padding:5px 10px; border:none;">
+                🔍
+            </button>
+
+        </form>
+    </div>
+
+    <div>
+        {% if user.is_authenticated %}
+            Hi {{ user.username }} |
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- PRODUCTS GRID -->
+<div class="grid">
+
+    {% for p in products %}
+    <div class="card">
+
+        <a href="{% url 'product_detail' p.id %}">
+            <img src="{{ p.image.url }}">
+        </a>
+
+        <h3>{{ p.name }}</h3>
+        <p>₹{{ p.price }}</p>
+
+        {% if p.stock > 20 %}
+    <p style="color:green;">✅ In Stock</p>
+
+{% elif p.stock > 0 %}
+    <p style="color:orange;">
+        ⚠️ Only {{ p.stock }} left
+    </p>
+
+{% else %}
+    <p style="color:red;">
+        ❌ Out of Stock
+    </p>
+{% endif %}
+
+        <a class="btn view" href="{% url 'product_detail' p.id %}">
+            View
+        </a>
+
+        <a class="btn cart" href="{% url 'add_to_cart' p.id %}">
+            Add to Cart
+        </a>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

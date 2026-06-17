@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            background:#f1f3f6;
+            margin:0;
+        }
+
+        .container{
+            width:90%;
+            margin:auto;
+            padding:20px;
+        }
+
+        .cart-box{
+            display:flex;
+            background:white;
+            margin-bottom:15px;
+            padding:15px;
+            border-radius:8px;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .cart-box img{
+            width:120px;
+            height:120px;
+            object-fit:cover;
+            border-radius:8px;
+        }
+
+        .details{
+            margin-left:20px;
+            flex:1;
+        }
+
+        .details h3{
+            margin:0;
+        }
+
+        .price{
+            color:green;
+            font-size:18px;
+            margin-top:5px;
+        }
+
+        .qty{
+            margin-top:10px;
+        }
+
+        .btn{
+            display:inline-block;
+            margin-top:10px;
+            padding:6px 10px;
+            border-radius:5px;
+            text-decoration:none;
+            color:white;
+            font-size:14px;
+        }
+
+        .add{
+            background:green;
+        }
+
+        .remove{
+            background:orange;
+        }
+
+        .delete{
+            background:red;
+        }
+
+        .checkout-box{
+            background:white;
+            padding:15px;
+            border-radius:8px;
+            text-align:right;
+            box-shadow:0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .checkout-btn{
+            background:#2874f0;
+            color:white;
+            padding:10px 20px;
+            text-decoration:none;
+            border-radius:5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Your Cart 🛒</h1>
+
+    {% if products %}
+
+        {% for p in products %}
+        <div class="cart-box">
+
+            <img src="{{ p.image.url }}">
+
+            <div class="details">
+                <h3>{{ p.name }}</h3>
+
+                <div class="price">
+                    ₹ {{ p.price }}
+                </div>
+
+                <div class="qty">
+                    Quantity: {{ p.qty }} <br>
+                    Total: ₹ {{ p.total }}
+                </div>
+
+                <!-- BUTTONS -->
+                <a class="btn add" href="{% url 'add_to_cart' p.id %}">
+                    ➕ Add
+                </a>
+
+                <a class="btn remove" href="{% url 'remove_from_cart' p.id %}">
+                    ➖ Remove
+                </a>
+
+                <a class="btn delete" href="{% url 'remove_all_from_cart' p.id %}">
+                    ❌ Remove All
+                </a>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+        <div class="checkout-box">
+            <h2>Total: ₹ {{ total }}</h2>
+            <a class="checkout-btn" href="{% url 'checkout' %}">
+                Pay Now
+            </a>
+        </div>
+
+    {% else %}
+        <h3>Your cart is empty 😢</h3>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
