@@ -9,7 +9,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "retying-shininess-hemlock.ngrok-free.dev",
+    "myshop-t2hh.onrender.com",
 ]
 
 
