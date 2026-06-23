@@ -7,9 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-change-this-key'
 DEBUG = True
 ALLOWED_HOSTS = [
-    "127.0.0.1",
+    "myshop-1-voul.onrender.com",
     "localhost",
-    "myshop-t2hh.onrender.com",
+    "127.0.0.1"
 ]
 
 
